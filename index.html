@@ -3,49 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colored Text Example</title>
+    <title>Product Page</title>
     <style>
-        .red-text {
-            color: #ff0000; /* Red color */
-        }
-        
-        .blue-text {
-            color: #0000ff; /* Blue color */
-        }
-        
-        .green-text {
-            color: #008000; /* Green color */
-        }
-        
-        /* Optional: Add some spacing and styling */
-        p {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: Arial, sans-serif;
-            font-size: 18px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .carousel-container {
+            flex: 1 1 50%;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .carousel-button.prev {
+            left: 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .carousel-button.next {
+            right: 0;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: #666;
+        }
+
+        .product-details {
+            flex: 1 1 40%;
+            min-width: 300px;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+
+        .product-description {
+            margin-bottom: 20px;
+            color: #666;
             line-height: 1.6;
-            margin: 20px 0;
+        }
+
+        .size-selector {
+            margin-bottom: 20px;
+        }
+
+        .size-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .size-button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .size-button.selected {
+            border-color: #e91e63;
+            background: #ffe5ec;
+        }
+
+        .add-to-cart {
+            width: 100%;
             padding: 15px;
-            background-color: #f8f8f8;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #c2185b;
+        }
+
+        @media (max-width: 768px) {
+            .product-container {
+                flex-direction: column;
+            }
+            
+            .carousel-container {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Colored Paragraphs Example</h1>
-    
-    <p class="red-text">
-        This paragraph is displayed in red text. Red is often associated with energy, passion, and urgency. It's a vibrant color that easily catches attention.
-    </p>
+    <div class="container">
+        <div class="product-container">
+            <div class="carousel-container">
+                <div class="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item">
+                            <img src="https://picsum.photos/800/600?random=1" alt="Product Image 1">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://picsum.photos/800/600?random=2" alt="Product Image 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://picsum.photos/800/600?random=3" alt="Product Image 3">
+                        </div>
+                    </div>
+                    <button class="carousel-button prev">❮</button>
+                    <button class="carousel-button next">❯</button>
+                </div>
+                <div class="carousel-dots"></div>
+            </div>
 
-    <p class="blue-text">
-        This paragraph appears in blue. Blue typically represents trust, stability, and calmness. It's a popular color in corporate designs and professional contexts.
-    </p>
+            <div class="product-details">
+                <h1 class="product-title">Premium Cotton T-Shirt</h1>
+                <p class="product-price">$29.99</p>
+                <p class="product-description">
+                    High-quality 100% cotton t-shirt with premium finish. 
+                    Available in various sizes and colors. Perfect for casual 
+                    wear or sports activities.
+                </p>
+                
+                <div class="size-selector">
+                    <h3>Select Size:</h3>
+                    <div class="size-buttons">
+                        <button class="size-button">S</button>
+                        <button class="size-button">M</button>
+                        <button class="size-button">L</button>
+                        <button class="size-button">XL</button>
+                        <button class="size-button">XXL</button>
+                    </div>
+                </div>
 
-    <p class="green-text">
-        This green paragraph symbolizes growth, harmony, and nature. Green is considered the most restful color for human eyes and is often used in environmental contexts.
-    </p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- Additional example with hex color -->
-    <p style="color: #800080">
-        This paragraph uses an additional color (purple) directly through inline CSS, demonstrating another coloring method. Purple is often associated with creativity and royalty.
-    </p>
+    <script>
+        // Carousel functionality
+        const carouselInner = document.querySelector('.carousel-inner');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const prevButton = document.querySelector('.prev');
+        const nextButton = document.querySelector('.next');
+        const dotsContainer = document.querySelector('.carousel-dots');
+        let currentIndex = 0;
+        const totalItems = carouselItems.length;
+
+        // Create dots
+        carouselItems.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => slideTo(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateCarousel() {
+            carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function slideTo(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalItems;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+            updateCarousel();
+        }
+
+        prevButton.addEventListener('click', prevSlide);
+        nextButton.addEventListener('click', nextSlide);
+
+        // Size selection
+        const sizeButtons = document.querySelectorAll('.size-button');
+        sizeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                sizeButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+            });
+        });
+
+        // Auto-rotate carousel every 5 seconds
+        setInterval(nextSlide, 5000);
+    </script>
 </body>
 </html>
