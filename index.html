@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Store</title>
+    <title>Project Management Tool</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,215 +13,173 @@
 
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
-        }
-
-        .header {
-            background: #333;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        .search-container {
-            margin: 1rem auto;
-            max-width: 600px;
-            padding: 0 1rem;
-        }
-
-        #search-input {
-            width: 100%;
-            padding: 0.5rem;
-            font-size: 1rem;
+            background-color: #f5f5f5;
         }
 
         .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
             display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            padding: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        .filters {
-            flex: 1 1 250px;
-            background: #f4f4f4;
-            padding: 1rem;
-            border-radius: 5px;
+        .view-switcher button {
+            padding: 8px 16px;
+            margin-left: 10px;
+            cursor: pointer;
         }
 
-        .products {
-            flex: 3 1 600px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
+        /* Task Board Styles */
+        .task-board {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 20px;
         }
 
-        .product-card {
-            border: 1px solid #ddd;
-            padding: 1rem;
-            border-radius: 5px;
-            transition: transform 0.3s;
+        .task-column {
+            background: #ebecf0;
+            border-radius: 4px;
+            min-width: 300px;
+            padding: 12px;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
+        .task-card {
+            background: white;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            cursor: move;
         }
 
-        .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
+        /* Timeline Styles */
+        .timeline-container {
+            display: none;
+            overflow-x: auto;
+            background: white;
+            padding: 20px;
             border-radius: 4px;
         }
 
-        .price {
-            font-weight: bold;
-            color: #2c3e50;
-            font-size: 1.2rem;
+        .timeline-header {
+            display: flex;
+            margin-bottom: 20px;
+            min-width: 800px;
         }
 
-        .rating {
-            color: #f39c12;
-            margin: 0.5rem 0;
-        }
-
-        .review {
-            background: #f8f9fa;
-            padding: 0.5rem;
-            margin: 0.5rem 0;
+        .timeline-task {
+            height: 40px;
+            background: #4caf50;
             border-radius: 4px;
+            margin: 10px 0;
+            position: relative;
+            color: white;
+            padding: 8px;
+            display: flex;
+            align-items: center;
         }
 
-        .filter-group {
-            margin-bottom: 1rem;
-        }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
+            .task-board {
                 flex-direction: column;
             }
+            
+            .task-column {
+                min-width: auto;
+            }
+        }
+
+        .active-view {
+            display: block;
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <h1>Online Store</h1>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search products...">
-        </div>
-    </header>
-
     <div class="container">
-        <aside class="filters">
-            <div class="filter-group">
-                <h3>Category</h3>
-                <select id="category-filter">
-                    <option value="all">All Categories</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="clothing">Clothing</option>
-                    <option value="books">Books</option>
-                </select>
+        <div class="header">
+            <h1>Project Manager</h1>
+            <div class="view-switcher">
+                <button onclick="showView('board')">Task Board</button>
+                <button onclick="showView('timeline')">Timeline</button>
             </div>
-            <div class="filter-group">
-                <h3>Price Range</h3>
-                <select id="price-filter">
-                    <option value="all">All Prices</option>
-                    <option value="0-50">$0 - $50</option>
-                    <option value="50-100">$50 - $100</option>
-                    <option value="100-500">$100 - $500</option>
-                </select>
-            </div>
-        </aside>
+        </div>
 
-        <main class="products" id="products-container">
-            <!-- Products will be dynamically inserted here -->
-        </main>
+        <!-- Task Board View -->
+        <div id="taskBoard" class="task-board active-view">
+            <div class="task-column" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <h3>To Do</h3>
+                <div class="task-card" draggable="true" ondragstart="drag(event)">Task 1</div>
+                <div class="task-card" draggable="true" ondragstart="drag(event)">Task 2</div>
+            </div>
+            <div class="task-column" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <h3>In Progress</h3>
+                <div class="task-card" draggable="true" ondragstart="drag(event)">Task 3</div>
+            </div>
+            <div class="task-column" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <h3>Done</h3>
+                <div class="task-card" draggable="true" ondragstart="drag(event)">Task 4</div>
+            </div>
+        </div>
+
+        <!-- Timeline View -->
+        <div id="timeline" class="timeline-container">
+            <div class="timeline-header">
+                <div style="min-width: 1200px; position: relative; height: 500px;">
+                    <div class="timeline-task" style="left: 50px; width: 200px;">Project Kickoff</div>
+                    <div class="timeline-task" style="left: 300px; width: 150px;">Design Phase</div>
+                    <div class="timeline-task" style="left: 500px; width: 300px;">Development Phase</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Sample product data
-        const products = [
-            {
-                id: 1,
-                name: "Wireless Headphones",
-                category: "electronics",
-                price: 149.99,
-                image: "https://via.placeholder.com/200",
-                reviews: [
-                    { user: "Alice", rating: 4, comment: "Great sound quality!" },
-                    { user: "Bob", rating: 5, comment: "Best headphones I've owned" }
-                ]
-            },
-            {
-                id: 2,
-                name: "Cotton T-Shirt",
-                category: "clothing",
-                price: 29.99,
-                image: "https://via.placeholder.com/200",
-                reviews: [
-                    { user: "Charlie", rating: 4, comment: "Comfortable fit" }
-                ]
-            },
-            // Add more products as needed
-        ];
-
-        // Display products
-        function renderProducts(productsToShow) {
-            const container = document.getElementById('products-container');
-            container.innerHTML = '';
-
-            productsToShow.forEach(product => {
-                const averageRating = product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length;
-
-                const productEl = document.createElement('div');
-                productEl.className = 'product-card';
-                productEl.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}" class="product-image">
-                    <h3>${product.name}</h3>
-                    <div class="price">$${product.price.toFixed(2)}</div>
-                    <div class="rating">${'★'.repeat(Math.round(averageRating))}${'☆'.repeat(5 - Math.round(averageRating))}</div>
-                    <div class="reviews">
-                        ${product.reviews.map(review => `
-                            <div class="review">
-                                <strong>${review.user}</strong>
-                                <div>${'★'.repeat(review.rating)}</div>
-                                <p>${review.comment}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-                container.appendChild(productEl);
+        function showView(view) {
+            document.querySelectorAll('.active-view').forEach(el => {
+                el.classList.remove('active-view');
+                el.classList.add('hidden');
             });
+            
+            const activeView = document.getElementById(view === 'board' ? 'taskBoard' : 'timeline');
+            activeView.classList.add('active-view');
+            activeView.classList.remove('hidden');
         }
 
-        // Filter functions
-        function filterProducts() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const category = document.getElementById('category-filter').value;
-            const priceRange = document.getElementById('price-filter').value;
-
-            let filtered = products.filter(product => {
-                const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
-                    product.category.toLowerCase().includes(searchTerm);
-                const matchesCategory = category === 'all' || product.category === category;
-                const matchesPrice = priceRange === 'all' || (
-                    product.price >= priceRange.split('-')[0] &&
-                    product.price <= priceRange.split('-')[1]
-                );
-
-                return matchesSearch && matchesCategory && matchesPrice;
-            });
-
-            renderProducts(filtered);
+        // Drag and Drop functionality
+        function allowDrop(ev) {
+            ev.preventDefault();
         }
 
-        // Event listeners
-        document.getElementById('search-input').addEventListener('input', filterProducts);
-        document.getElementById('category-filter').addEventListener('change', filterProducts);
-        document.getElementById('price-filter').addEventListener('change', filterProducts);
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.outerHTML);
+            ev.dataTransfer.effectAllowed = "move";
+        }
 
-        // Initial render
-        renderProducts(products);
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = data;
+            const draggedElement = tempDiv.firstChild;
+            
+            // Get drop target
+            const targetColumn = ev.target.closest('.task-column');
+            if (targetColumn) {
+                targetColumn.appendChild(draggedElement);
+            }
+        }
     </script>
 </body>
 </html>
