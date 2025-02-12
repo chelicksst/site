@@ -3,118 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Styled Content Table</title>
+    <title>FitTracker Pro</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* CSS Styling */
-        .content-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-family: 'Arial', sans-serif;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
         }
 
-        .content-table thead tr {
-            background-color: #2c3e50;
-            color: #ffffff;
-            text-align: left;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f4f4f4;
         }
 
-        .content-table th,
-        .content-table td {
-            padding: 12px 15px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .content-table tbody tr {
-            border-bottom: 1px solid #dddddd;
+        .header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 2rem;
         }
 
-        .content-table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
+        .nav {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
         }
 
-        .content-table tbody tr:last-of-type {
-            border-bottom: 2px solid #2c3e50;
+        .nav button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            background: #4f46e5;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .content-table tbody tr:hover {
-            background-color: #ecf0f1;
+        .nav button:hover {
+            background: #4338ca;
         }
 
-        .product-image {
-            width: 100px;
-            height: auto;
-            border-radius: 4px;
-            transition: transform 0.3s ease;
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        .product-image:hover {
-            transform: scale(1.1);
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .product-link {
-            color: #2980b9;
-            text-decoration: none;
-            font-weight: bold;
+        .workout-plan {
+            margin-bottom: 2rem;
         }
 
-        .product-link:hover {
-            color: #3498db;
-            text-decoration: underline;
+        .progress-chart {
+            height: 300px;
         }
 
-        .price-tag {
-            color: #27ae60;
-            font-weight: bold;
+        .exercise-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .exercise-list li {
+            padding: 1rem;
+            background: #f8f9fa;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <table class="content-table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Image</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Wireless Headphones</td>
-                <td>
-                    <img src="https://picsum.photos/100/60" alt="Headphones" class="product-image">
-                </td>
-                <td>Premium noise-canceling wireless headphones with 30-hour battery life</td>
-                <td class="price-tag">$299.99</td>
-                <td>
-                    <a href="#" class="product-link">View Details</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Smart Watch</td>
-                <td>
-                    <img src="https://picsum.photos/100/60?grayscale" alt="Smart Watch" class="product-image">
-                </td>
-                <td>Fitness tracking smart watch with heart rate monitor and GPS</td>
-                <td class="price-tag">$199.99</td>
-                <td>
-                    <a href="#" class="product-link">View Details</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Portable Speaker</td>
-                <td>
-                    <img src="https://picsum.photos/100/60?blur" alt="Speaker" class="product-image">
-                </td>
-                <td>Waterproof Bluetooth speaker with 20W output and deep bass</td>
-                <td class="price-tag">$149.99</td>
-                <td>
-                    <a href="#" class="product-link">View Details</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <header class="header">
+            <h1>FitTracker Pro</h1>
+            <p>Your Personal Fitness Companion</p>
+        </header>
+
+        <nav class="nav">
+            <button onclick="showSection('workouts')">Workouts</button>
+            <button onclick="showSection('progress')">Progress</button>
+            <button onclick="showSection('charts')">Charts</button>
+        </nav>
+
+        <div class="dashboard">
+            <div class="card workout-plan">
+                <h2>Today's Workout Plan</h2>
+                <ul class="exercise-list">
+                    <li>Warm-up: 10min <span>🏃♂️</span></li>
+                    <li>Push-ups: 3x15 <span>💪</span></li>
+                    <li>Squats: 4x20 <span>🦵</span></li>
+                    <li>Plank: 3x1min <span>🧘</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Progress Tracker</h2>
+                <div class="progress-chart">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Add Workout</h2>
+                <form id="workoutForm">
+                    <input type="text" placeholder="Exercise name" required>
+                    <input type="number" placeholder="Duration (min)" required>
+                    <input type="number" placeholder="Calories burned" required>
+                    <button type="submit">Log Workout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart initialization
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Weight Progress (kg)',
+                    data: [75, 73, 72, 70],
+                    borderColor: '#6366f1',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Form handling
+        document.getElementById('workoutForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const exercise = formData.get('exercise');
+            const duration = formData.get('duration');
+            const calories = formData.get('calories');
+            
+            // Add to workout list
+            const exerciseList = document.querySelector('.exercise-list');
+            const newExercise = document.createElement('li');
+            newExercise.innerHTML = `
+                ${exercise} 
+                <span>${duration}min | ${calories}kcal</span>
+            `;
+            
+            exerciseList.appendChild(newExercise);
+            e.target.reset();
+        });
+
+        // Section navigation
+        function showSection(section) {
+            // Add section switching logic
+            console.log(`Showing ${section} section`);
+        }
+    </script>
 </body>
 </html>
