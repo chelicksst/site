@@ -1,185 +1,45 @@
+<!-- Frontend: index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Management Tool</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .view-switcher button {
-            padding: 8px 16px;
-            margin-left: 10px;
-            cursor: pointer;
-        }
-
-        /* Task Board Styles */
-        .task-board {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            padding-bottom: 20px;
-        }
-
-        .task-column {
-            background: #ebecf0;
-            border-radius: 4px;
-            min-width: 300px;
-            padding: 12px;
-        }
-
-        .task-card {
-            background: white;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-            cursor: move;
-        }
-
-        /* Timeline Styles */
-        .timeline-container {
-            display: none;
-            overflow-x: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 4px;
-        }
-
-        .timeline-header {
-            display: flex;
-            margin-bottom: 20px;
-            min-width: 800px;
-        }
-
-        .timeline-task {
-            height: 40px;
-            background: #4caf50;
-            border-radius: 4px;
-            margin: 10px 0;
-            position: relative;
-            color: white;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .task-board {
-                flex-direction: column;
-            }
-            
-            .task-column {
-                min-width: auto;
-            }
-        }
-
-        .active-view {
-            display: block;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
+    <title>LearnHub - Online Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Project Manager</h1>
-            <div class="view-switcher">
-                <button onclick="showView('board')">Task Board</button>
-                <button onclick="showView('timeline')">Timeline</button>
+    <nav class="navbar">
+        <div class="logo">LearnHub</div>
+        <ul class="nav-links">
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#certificates">Certificates</a></li>
+            <li><a href="#login" class="login-btn">Login</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>Expand Your Knowledge</h1>
+        <p>Access 1000+ courses across various disciplines</p>
+        <div class="search-bar">
+            <input type="text" placeholder="Search courses...">
+            <button>Search</button>
+        </div>
+    </header>
+
+    <section class="course-grid" id="courses">
+        <div class="course-card">
+            <img src="web-dev.jpg" alt="Web Development">
+            <h3>Web Development Fundamentals</h3>
+            <p>Learn HTML, CSS, and JavaScript</p>
+            <div class="course-meta">
+                <span>4.8 ★</span>
+                <button>Enroll Now</button>
             </div>
         </div>
+        <!-- More course cards -->
+    </section>
 
-        <!-- Task Board View -->
-        <div id="taskBoard" class="task-board active-view">
-            <div class="task-column" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <h3>To Do</h3>
-                <div class="task-card" draggable="true" ondragstart="drag(event)">Task 1</div>
-                <div class="task-card" draggable="true" ondragstart="drag(event)">Task 2</div>
-            </div>
-            <div class="task-column" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <h3>In Progress</h3>
-                <div class="task-card" draggable="true" ondragstart="drag(event)">Task 3</div>
-            </div>
-            <div class="task-column" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <h3>Done</h3>
-                <div class="task-card" draggable="true" ondragstart="drag(event)">Task 4</div>
-            </div>
-        </div>
-
-        <!-- Timeline View -->
-        <div id="timeline" class="timeline-container">
-            <div class="timeline-header">
-                <div style="min-width: 1200px; position: relative; height: 500px;">
-                    <div class="timeline-task" style="left: 50px; width: 200px;">Project Kickoff</div>
-                    <div class="timeline-task" style="left: 300px; width: 150px;">Design Phase</div>
-                    <div class="timeline-task" style="left: 500px; width: 300px;">Development Phase</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function showView(view) {
-            document.querySelectorAll('.active-view').forEach(el => {
-                el.classList.remove('active-view');
-                el.classList.add('hidden');
-            });
-            
-            const activeView = document.getElementById(view === 'board' ? 'taskBoard' : 'timeline');
-            activeView.classList.add('active-view');
-            activeView.classList.remove('hidden');
-        }
-
-        // Drag and Drop functionality
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.outerHTML);
-            ev.dataTransfer.effectAllowed = "move";
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            const data = ev.dataTransfer.getData("text");
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = data;
-            const draggedElement = tempDiv.firstChild;
-            
-            // Get drop target
-            const targetColumn = ev.target.closest('.task-column');
-            if (targetColumn) {
-                targetColumn.appendChild(draggedElement);
-            }
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
