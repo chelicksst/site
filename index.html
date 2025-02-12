@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crowdfunding Platform</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Online Store</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,230 +12,216 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             line-height: 1.6;
-            background-color: #f5f5f5;
         }
 
         .header {
-            background-color: #2c3e50;
+            background: #333;
             color: white;
+            padding: 1rem;
             text-align: center;
-            padding: 2rem;
-            margin-bottom: 2rem;
         }
 
-        .projects-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        .search-container {
+            margin: 1rem auto;
+            max-width: 600px;
+            padding: 0 1rem;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
             gap: 2rem;
-            padding: 0 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 1rem;
         }
 
-        .project-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
+        .filters {
+            flex: 1 1 250px;
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 5px;
         }
 
-        .project-card:hover {
+        .products {
+            flex: 3 1 600px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
             transform: translateY(-5px);
         }
 
-        .project-image {
+        .product-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
+            border-radius: 4px;
         }
 
-        .project-content {
-            padding: 1.5rem;
-        }
-
-        .project-title {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
+        .price {
+            font-weight: bold;
             color: #2c3e50;
+            font-size: 1.2rem;
         }
 
-        .project-description {
-            color: #666;
+        .rating {
+            color: #f39c12;
+            margin: 0.5rem 0;
+        }
+
+        .review {
+            background: #f8f9fa;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+        }
+
+        .filter-group {
             margin-bottom: 1rem;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: #eee;
-            border-radius: 5px;
-            margin: 1rem 0;
-        }
-
-        .progress {
-            height: 100%;
-            background-color: #27ae60;
-            border-radius: 5px;
-            transition: width 0.3s ease;
-        }
-
-        .funding-details {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            color: #666;
-        }
-
-        .donate-btn {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .donate-btn:hover {
-            background-color: #219a52;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: #666;
-        }
-
-        .donation-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        input {
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
         }
 
         @media (max-width: 768px) {
-            .projects-container {
-                grid-template-columns: 1fr;
-                padding: 0 1rem;
+            .container {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <h1>Support Amazing Projects</h1>
+        <h1>Online Store</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search products...">
+        </div>
     </header>
 
-    <div class="projects-container">
-        <!-- Project Cards -->
-        <div class="project-card">
-            <img src="https://source.unsplash.com/random/800x600" alt="Project" class="project-image">
-            <div class="project-content">
-                <h2 class="project-title">Eco-Friendly Water Bottle</h2>
-                <p class="project-description">Help us create sustainable, biodegradable water bottles for a cleaner planet.</p>
-                <div class="funding-details">
-                    <span>$25,000 raised</span>
-                    <span>75% funded</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress" style="width: 75%"></div>
-                </div>
-                <button class="donate-btn" onclick="openModal()">Donate Now</button>
+    <div class="container">
+        <aside class="filters">
+            <div class="filter-group">
+                <h3>Category</h3>
+                <select id="category-filter">
+                    <option value="all">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="books">Books</option>
+                </select>
             </div>
-        </div>
+            <div class="filter-group">
+                <h3>Price Range</h3>
+                <select id="price-filter">
+                    <option value="all">All Prices</option>
+                    <option value="0-50">$0 - $50</option>
+                    <option value="50-100">$50 - $100</option>
+                    <option value="100-500">$100 - $500</option>
+                </select>
+            </div>
+        </aside>
 
-        <!-- Add more project cards as needed -->
-    </div>
-
-    <!-- Donation Modal -->
-    <div id="donationModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2>Support This Project</h2>
-            <form class="donation-form" onsubmit="handleSubmit(event)">
-                <div class="form-group">
-                    <label>Amount (USD)</label>
-                    <input type="number" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" required>
-                </div>
-                <button type="submit" class="donate-btn">Complete Donation</button>
-            </form>
-        </div>
+        <main class="products" id="products-container">
+            <!-- Products will be dynamically inserted here -->
+        </main>
     </div>
 
     <script>
-        function openModal() {
-            document.getElementById('donationModal').style.display = 'flex';
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: "Wireless Headphones",
+                category: "electronics",
+                price: 149.99,
+                image: "https://via.placeholder.com/200",
+                reviews: [
+                    { user: "Alice", rating: 4, comment: "Great sound quality!" },
+                    { user: "Bob", rating: 5, comment: "Best headphones I've owned" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Cotton T-Shirt",
+                category: "clothing",
+                price: 29.99,
+                image: "https://via.placeholder.com/200",
+                reviews: [
+                    { user: "Charlie", rating: 4, comment: "Comfortable fit" }
+                ]
+            },
+            // Add more products as needed
+        ];
+
+        // Display products
+        function renderProducts(productsToShow) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+
+            productsToShow.forEach(product => {
+                const averageRating = product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length;
+
+                const productEl = document.createElement('div');
+                productEl.className = 'product-card';
+                productEl.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <h3>${product.name}</h3>
+                    <div class="price">$${product.price.toFixed(2)}</div>
+                    <div class="rating">${'★'.repeat(Math.round(averageRating))}${'☆'.repeat(5 - Math.round(averageRating))}</div>
+                    <div class="reviews">
+                        ${product.reviews.map(review => `
+                            <div class="review">
+                                <strong>${review.user}</strong>
+                                <div>${'★'.repeat(review.rating)}</div>
+                                <p>${review.comment}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(productEl);
+            });
         }
 
-        function closeModal() {
-            document.getElementById('donationModal').style.display = 'none';
+        // Filter functions
+        function filterProducts() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const category = document.getElementById('category-filter').value;
+            const priceRange = document.getElementById('price-filter').value;
+
+            let filtered = products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
+                    product.category.toLowerCase().includes(searchTerm);
+                const matchesCategory = category === 'all' || product.category === category;
+                const matchesPrice = priceRange === 'all' || (
+                    product.price >= priceRange.split('-')[0] &&
+                    product.price <= priceRange.split('-')[1]
+                );
+
+                return matchesSearch && matchesCategory && matchesPrice;
+            });
+
+            renderProducts(filtered);
         }
 
-        function handleSubmit(event) {
-            event.preventDefault();
-            alert('Thank you for your donation!');
-            closeModal();
-            event.target.reset();
-        }
+        // Event listeners
+        document.getElementById('search-input').addEventListener('input', filterProducts);
+        document.getElementById('category-filter').addEventListener('change', filterProducts);
+        document.getElementById('price-filter').addEventListener('change', filterProducts);
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('donationModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
+        // Initial render
+        renderProducts(products);
     </script>
 </body>
 </html>
